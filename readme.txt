@@ -1,7 +1,4 @@
 
-
-
-
 Required mod test:
     - joining new game as observer
     - joining new game as a player
