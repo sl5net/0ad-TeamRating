@@ -1,0 +1,11 @@
+{
+	"name": "customrating",
+	"version": "0.25.1",
+	"label": "customrating mod",
+	"description": "custom rating can be set in option",
+	"url": "https://wildfiregames.com/forum/topic/28390-custom-rating/",
+	"ignoreInCompatibilityChecks": true,
+	"author_name": "go2die",
+	"author_profile": "https://wildfiregames.com/forum/index.php?/profile/29082-go2die/",
+	"dependencies": ["0ad=0.0.25"]
+}
