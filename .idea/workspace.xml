@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fbea2b49-e775-4f05-afbd-b978c1533543" name="Changes" comment="" />
+    <list default="true" id="fbea2b49-e775-4f05-afbd-b978c1533543" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,6 +54,7 @@
       <option name="presentableId" value="Default" />
       <updated>1631203391087</updated>
       <workItem from="1631203392883" duration="493000" />
+      <workItem from="1631204073183" duration="524000" />
     </task>
     <servers />
   </component>
@@ -68,6 +71,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

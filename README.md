@@ -8,6 +8,25 @@ many thanks to all the 0ad developers out there
 
 cheers
 
+# 
+
+get a backup rating if rating server is not accessible. seem working in my first tests.
+
+customrating0.25.2.zip 37 kB · 2 downloads
+
+# temporary solution. workaround: 
+
+it read from
+>~/snap/0ad/236/.config/0ad/config/user.cfg
+
+first line
+
+example:
+
+>UserRatingBackup = "950"
+
+and update this number if server is available. 
+
 # todo
 
 ## read metadata.json
