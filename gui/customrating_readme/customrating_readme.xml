@@ -36,7 +36,7 @@
 				this.caption = autociv_SimpleMarkup(markdown)
 			</action>
 		</object>
-		<object size="0%+20 100%-15-17-25 100%-15 100%-25">
+		<object size="0%+20 100%-15-17-35 100%-15 100%-35">
 			<!-- Webpage button -->
 			<object name="buttonWebpage"
 				type="button"

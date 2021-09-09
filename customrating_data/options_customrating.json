@@ -26,10 +26,11 @@
 				{ "value": "false", "label": "!No rating" },								
 				{ "value": " ® ", "label": "®"  },
 				{ "value": " © ", "label": "©"  },
-				{ "value": "^1", "label": "∞"  },
-				{ "value": "^2", "label": " ♡ "  },
-				{ "value": "^3", "label": " ™ "  },
-				{ "value": "^4", "label": " ★ "  }					
+				{ "value": "^1", "label": " +90 maybe"  },
+				{ "value": "^2", "label": "100 less today"  },
+				{ "value": "^3", "label": "Plan\\&Go YTube"  },
+				{ "value": "^4", "label": "programmer\\?"  },
+				{ "value": "^5", "label": "spec"  }
 			]
 		}
 	]

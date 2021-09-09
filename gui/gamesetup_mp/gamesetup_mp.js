@@ -28,7 +28,37 @@ var g_PlayerName;
 
 function init(attribs)
 {
-	g_UserRating = attribs.rating;
+	// Engine.ConfigDB_WriteValueToFile("user", "testKey", "testValue", "config/user.cfg");
+	// Engine.ConfigDB_WriteValueToFile("user", key, value, "config/user.cfg");
+
+	// Engine.ConfigDB_CreateValue("user", "UserRatingBackup", g_UserRating); // 1 just as dummy
+	// Engine.ConfigDB_CreateValue("user", "UserRatingBackup", "1"); // 1 just as dummy
+	// Engine.ConfigDB_WriteValueToFile("user", "UserRatingBackup", '"' + g_UserRating + '"', "config/user.cfg"); // backup rating if rating-server is working
+
+	// configSaveToMemoryAndToDisk("UserRatingBackup", g_UserRating)
+
+
+	// Todo: Team-Rating: https://wildfiregames.com/forum/topic/55450-howto-read-~snap0ad236localshare0adreplays00252021-08-05_0002metadatajson/?tab=comments#comment-452731
+/*
+https://wildfiregames.com/forum/topic/55450-howto-read-~snap0ad236localshare0adreplays00252021-08-05_0002metadatajson/?do=findComment&comment=452775
+how to read howTo read metadata.json from a mod ? (  ~/snap/0ad/236/.local/share/0ad/replays/0.0.25/2021-08-05_0002/metadata.json )
+bb_
+That file is used in the replaymenu in the public mod. It is loaded via Engine.GetReplayMetadata called from replay_menu.js
+ */
+	// if(!attribs || !attribs.rating)
+	if(!g_UserRating) {
+		var g_UserRatingString = Engine.ConfigDB_GetValue("user", "UserRatingBackup"); // get backup
+		if (g_UserRatingString > 10 ) // if there is no backups use your hardcoded default rating.
+			g_UserRating = g_UserRatingString; // 2021-0907_1833-48 . sometimes server is not available. that's a kine of backup
+		else
+			g_UserRating = 951; // 2021-0907_1833-48 . sometimes server is not available. that's a kine of backup
+	}else {
+		g_UserRating = attribs.rating;
+		var g_UserRatingString = "" + g_UserRating + "";
+		Engine.ConfigDB_CreateValue("user", "UserRatingBackup", g_UserRatingString); // 1 just as dummy
+		Engine.ConfigDB_WriteValueToFile("user", "UserRatingBackup",  g_UserRatingString, "config/user.cfg"); // backup rating if rating-server is working
+		// saves here in ~/snap/0ad/current/.config/0ad/config/user.cfg
+	}
 
 		// added by custom rating - START
 	var customrating_value = Engine.ConfigDB_GetValue("user","customrating.value");
@@ -37,36 +67,51 @@ function init(attribs)
 			// Get only username without brackets			
 			g_UserRating = false;
 		} else {
-			if(isNaN(customrating_value)) {								 
-				//replace extra chars (hav to do this coz options save buttonwill save them in wrong charset)
-				customrating_value = customrating_value.replace(/\^1/g,"∞");
-				customrating_value = customrating_value.replace(/\^2/g,"♡");
-				customrating_value = customrating_value.replace(/\^3/g,"™");
-				customrating_value = customrating_value.replace(/\^4/g,"★");
-				customrating_value = customrating_value.replace(/\^5/g,"↑");
+			if(true || isNaN(customrating_value)) {
+				//replace extra chars (hav to do this coz options save button will save them in wrong charset)
+				// customrating_value = customrating_value.replace(/\^1/g,"∞");
+				customrating_value = customrating_value.replace(/\^1/g,g_UserRating + "\+100 maybe");
+				// if its empty . enabled but empty => works bot long for this field. end ) is not there 2021-0902_1327-19
+				customrating_value = customrating_value.replace(/\^2/g,g_UserRating + " or 100 less today");
+				customrating_value = customrating_value.replace(/\^3/g,g_UserRating + " Plan\&Go YTube");
+				// customrating_value = customrating_value.replace(/\^3/g,"™");
+				customrating_value = customrating_value.replace(/\^4/g,g_UserRating + " programmer\?");
+				// customrating_value = customrating_value.replace(/\^5/g,"↑");
+				customrating_value = customrating_value.replace(/\^5/g,"spec\=i not play"); // max. 25 letter, then its not cut off.
 				// remove numbers
-				customrating_value = customrating_value.replace(/[0-9]/g,'');
-				customrating_value = customrating_value.replace(/\(/g,'');
-				customrating_value = customrating_value.replace(/\)/g,'');
-				customrating_value = customrating_value.replace(/\[/g,'');				
-				customrating_value = customrating_value.replace(/\]/g,'');				
-				customrating_value = customrating_value.replace('OFFLINE','');				
-				customrating_value = customrating_value.replace('Host','');		
+				// customrating_value = customrating_value.replace(/[0-9]/g,'');
+				// customrating_value = customrating_value.replace(/\(/g,'');
+				// customrating_value = customrating_value.replace(/\)/g,'');
+				// customrating_value = customrating_value.replace(/\[/g,'');
+				// customrating_value = customrating_value.replace(/\]/g,'');
+				// customrating_value = customrating_value.replace('OFFLINE','');
+				// customrating_value = customrating_value.replace('Host','');
+
+
+				// \n\s\r
+				customrating_value = customrating_value.replace(/^[^\d\w\-]*[0-9]+[^\d\w\-]*$/g,''); // if its only a number. cut it out
+				// customrating_value = customrating_value.replace(/^\s*[0-9]+\s*$/g,attribs.rating); // if its only a number. set default number
+
 				// recheck for number after stripping text
-				if(isNaN(customrating_value)) {			
-					//g_UserRating = customrating_value.substring(0,10)												
-					g_UserRating = customrating_value.substring(0,16);				
+				// if(isNaN(customrating_value)) {
+				if(customrating_value) {
+					//g_UserRating = customrating_value.substring(0,10)
+					// g_UserRating = customrating_value.substring(0,16);
+					g_UserRating = customrating_value + ""; // customrating_value not empty with som texts
 				} else {
-					//no rating in username					
-					g_UserRating = attribs.rating;
+					//no rating in username
+					// g_UserRating = attribs.rating + " or +100 maybe."; // if its empty . enabled but empty => works 2021-0902_1324-54
+					// g_UserRating = attribs.rating + " or +100 maybe."; // if its empty . enabled but empty => works bot long for this field. end ) is not there 2021-0902_1326-08
+					g_UserRating = attribs.rating + " +100 maybe"; // if its empty . enabled but empty => works bot long for this field. end ) is not there 2021-0902_1327-19
 				}
 			} else {
 				//warn(uneval("customrating numbers not allowed - adding spaces"));
-				g_UserRating = " " + customrating_value.substring(0,16) + " ";			
+				// g_UserRating = " " + customrating_value.substring(0,16) + " ";
+				g_UserRating = " " + customrating_value + " "; // <= need a space at the end . for prefent errors
 			}
-					
+
 		}
-	} 
+	}
 				
 		//g_ServerPort = attribs.port;
 		g_PlayerName = !!attribs.name ? attribs.name + (g_UserRating ? " (" + g_UserRating + ")" : "") : "";
