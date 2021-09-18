@@ -39,22 +39,24 @@ function init(attribs)
 
 
 	// Todo: Team-Rating: https://wildfiregames.com/forum/topic/55450-howto-read-~snap0ad236localshare0adreplays00252021-08-05_0002metadatajson/?tab=comments#comment-452731
-/*
+	let g_UserRatingString;
+
+	/*
 https://wildfiregames.com/forum/topic/55450-howto-read-~snap0ad236localshare0adreplays00252021-08-05_0002metadatajson/?do=findComment&comment=452775
 how to read howTo read metadata.json from a mod ? (  ~/snap/0ad/236/.local/share/0ad/replays/0.0.25/2021-08-05_0002/metadata.json )
 bb_
 That file is used in the replaymenu in the public mod. It is loaded via Engine.GetReplayMetadata called from replay_menu.js
  */
 	// if(!attribs || !attribs.rating)
-	if(!g_UserRating) {
-		var g_UserRatingString = Engine.ConfigDB_GetValue("user", "UserRatingBackup"); // get backup
+	if (!attribs || !attribs.rating) {
+		g_UserRatingString = Engine.ConfigDB_GetValue("user", "UserRatingBackup"); // get backup
 		if (g_UserRatingString > 10 ) // if there is no backups use your hardcoded default rating.
 			g_UserRating = g_UserRatingString; // 2021-0907_1833-48 . sometimes server is not available. that's a kine of backup
 		else
-			g_UserRating = 951; // 2021-0907_1833-48 . sometimes server is not available. that's a kine of backup
+			g_UserRating = 951; // 950 // 2021-0907_1833-48 . sometimes server is not available. that's a kine of backup
 	}else {
 		g_UserRating = attribs.rating;
-		var g_UserRatingString = "" + g_UserRating + "";
+		g_UserRatingString = "" + g_UserRating + "";
 		Engine.ConfigDB_CreateValue("user", "UserRatingBackup", g_UserRatingString); // 1 just as dummy
 		Engine.ConfigDB_WriteValueToFile("user", "UserRatingBackup",  g_UserRatingString, "config/user.cfg"); // backup rating if rating-server is working
 		// saves here in ~/snap/0ad/current/.config/0ad/config/user.cfg
